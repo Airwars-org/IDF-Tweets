@@ -19,7 +19,7 @@
         <DateRange {data} />
     </div>
     <div class="centre-heading">
-        {filteredData?.length} items found from
+        {filteredData?.length} incidents found from
         <strong>
             {selectedDate
                 ? formatDate(new Date(selectedDate))
