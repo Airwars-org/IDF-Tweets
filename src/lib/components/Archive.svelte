@@ -3,12 +3,16 @@
     import { selected } from "$lib/stores/selected";
     import { points } from "$lib/stores/points";
     import DetailPanel from "@components/DetailPanel.svelte";
+    import { createEventDispatcher } from "svelte";
+
+    const dispatch = createEventDispatcher();
+    export let data;
 
     let selectedPoint = null;
     let panelVisible = false;
     let panelRef;
-
     let searchTerm = "";
+    let filteredPoints = [];
 
     $: selected.subscribe((value) => {
         selectedPoint = value;
@@ -20,6 +24,17 @@
             .toLowerCase()
             .includes(searchTerm.toLowerCase()),
     );
+
+    function handleKeydown(event) {
+        if (event.key === "Enter") {
+            dispatch("updateFilteredData", filteredPoints);
+        }
+    }
+
+    function resetSearch() {
+        searchTerm = "";
+        dispatch("updateFilteredData", data);
+    }
 
     onMount(() => {
         document.addEventListener("click", handleClickOutside, true);
@@ -36,11 +51,14 @@
     }
 </script>
 
+<button class="reset-button" on:click={resetSearch}>Reset</button>
+
 <input
     type="text"
     placeholder="Search..."
     bind:value={searchTerm}
     class="search-input"
+    on:keydown={handleKeydown}
 />
 
 <section>
@@ -74,6 +92,20 @@
         position: sticky;
         top: 0;
         margin-bottom: 10px;
+    }
+
+    .reset-button {
+        background-color: gainsboro;
+        color: black;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        margin-bottom: 2px;
+    }
+
+    .reset-button:hover {
+        background-color: var(--primary-color);
+        color: white;
     }
 
     .list-container {

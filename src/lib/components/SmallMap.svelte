@@ -138,7 +138,7 @@
 
 <style>
     .boundary {
-        fill: rgb(214, 214, 214);
+        fill: rgb(237, 237, 237);
         stroke-width: 1px;
         stroke: rgb(179, 179, 179);
     }
@@ -146,7 +146,7 @@
     .streets {
         fill: none;
         stroke-width: 0.1px;
-        stroke: rgb(60, 60, 60);
+        stroke: rgb(175, 175, 175);
     }
 
     rect {

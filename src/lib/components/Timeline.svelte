@@ -55,7 +55,7 @@
 </script>
 
 <div class="timeline-container">
-    <Legend {filteredData} {selectedDate} {data} {minDate}/>
+    <Legend {filteredData} {selectedDate} {data} {minDate} />
 
     <div class="chart">
         <!-- <p class="date">
@@ -71,7 +71,17 @@
                 title="{dateKey}: {counts[index]} incidents"
                 on:click={() => filterDataByDate(dateKey)}
             >
-                <div class="count">{counts[index]}</div>
+                <div class="count">
+                    <p>
+                        {parseDate(dateKey).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                        })}
+                    </p>
+                    <!-- <p>
+                        {counts[index]}
+                    </p> -->
+                </div>
             </div>
         {/each}
         <!-- <p class="date">

@@ -50,11 +50,11 @@
                 <Map data={filteredData.length > 0 ? filteredData : data} />
             </div>
             <div class="panel">
-                <Archive />
+                <Archive {data} on:updateFilteredData={updateFilteredData} />
             </div>
         </section>
         <div class="timeline">
-            <Timeline {data} on:filteredData={updateFilteredData} />
+            <Timeline  data={filteredData.length > 0 ? filteredData : data} on:filteredData={updateFilteredData} />
         </div>
     {/if}
 </section>
