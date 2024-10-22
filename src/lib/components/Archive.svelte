@@ -27,12 +27,17 @@
 
     function handleKeydown(event) {
         if (event.key === "Enter") {
-            dispatch("updateFilteredData", filteredPoints);
+            triggerSearch();
         }
+    }
+
+    function triggerSearch() {
+        dispatch("updateFilteredData", filteredPoints);
     }
 
     function resetSearch() {
         searchTerm = "";
+        filteredPoints = data;
         dispatch("updateFilteredData", data);
     }
 
@@ -51,17 +56,18 @@
     }
 </script>
 
-<button class="reset-button" on:click={resetSearch}>Reset</button>
-
-<input
-    type="text"
-    placeholder="Search..."
-    bind:value={searchTerm}
-    class="search-input"
-    on:keydown={handleKeydown}
-/>
-
 <section>
+    <div class="search-container">
+        <input
+            type="text"
+            placeholder="Search..."
+            bind:value={searchTerm}
+            class="search-input"
+            on:keydown={handleKeydown}
+        />
+        <button class="search-button" on:click={triggerSearch}>Filter</button>
+        <button class="reset-button" on:click={resetSearch}>Reset</button>
+    </div>
     {#if panelVisible}
         <div bind:this={panelRef}>
             <DetailPanel />
@@ -82,27 +88,37 @@
 <style>
     section {
         width: 250px;
+        padding: 5px;
     }
 
-    .search-input {
-        width: calc(100% - 10px);
-        border: none;
-        outline: none;
-        color: var(--primary-color);
-        position: sticky;
-        top: 0;
+    .search-container {
+        display: flex;
+        gap: 5px;
         margin-bottom: 10px;
     }
 
+    .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        color: var(--primary-color);
+        padding: 5px;
+    }
+
+    .search-button,
     .reset-button {
         background-color: gainsboro;
         color: black;
         border: none;
         padding: 5px;
         cursor: pointer;
-        margin-bottom: 2px;
     }
 
+    .reset-button {
+        background-color: rgb(234, 234, 234);
+    }
+
+    .search-button:hover,
     .reset-button:hover {
         background-color: var(--primary-color);
         color: white;

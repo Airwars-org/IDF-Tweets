@@ -54,7 +54,11 @@
             </div>
         </section>
         <div class="timeline">
-            <Timeline  data={filteredData.length > 0 ? filteredData : data} on:filteredData={updateFilteredData} />
+            <Timeline
+                {data}
+                {filteredData}
+                on:filteredData={updateFilteredData}
+            />
         </div>
     {/if}
 </section>

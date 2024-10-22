@@ -3,11 +3,11 @@
     import { getMinMaxDates, parseDate } from "@lib/utils.js";
     import Legend from "@components/Legend.svelte";
 
-    export let data = [];
+    export let data;
+    export let filteredData = [];
     const dispatch = createEventDispatcher();
 
     let minDate, maxDate;
-    let filteredData = data;
     let incidentCounts = {};
     let dateRange = [];
     let counts = [];
@@ -58,16 +58,23 @@
     <Legend {filteredData} {selectedDate} {data} {minDate} />
 
     <div class="chart">
-        <!-- <p class="date">
-            {formatDate(new Date(minDate))}
-        </p> -->
         {#each dateRange as dateKey, index}
             <div
                 class="bar"
-                style="height: {counts[index] *
-                    2}px; background-color: {selectedDate === dateKey
+                style="height: {counts[index] * 2}px; 
+                       background-color: {selectedDate === dateKey
                     ? 'black'
-                    : 'var(--primary-color)'};"
+                    : 'var(--primary-color)'};
+                       opacity: {filteredData.length === 0 ||
+                filteredData.find((d) => {
+                    const postDate = parseDate(d['Post Date']);
+                    return (
+                        postDate &&
+                        postDate.toISOString().split('T')[0] === dateKey
+                    );
+                })
+                    ? 1
+                    : 0.3};"
                 title="{dateKey}: {counts[index]} incidents"
                 on:click={() => filterDataByDate(dateKey)}
             >
@@ -78,15 +85,9 @@
                             day: "numeric",
                         })}
                     </p>
-                    <!-- <p>
-                        {counts[index]}
-                    </p> -->
                 </div>
             </div>
         {/each}
-        <!-- <p class="date">
-            {formatDate(new Date(maxDate))}
-        </p> -->
     </div>
 </div>
 
@@ -117,10 +118,10 @@
         position: relative;
         margin-right: 2px;
         cursor: pointer;
-        position: relative;
         border-top: 1px solid gray;
         margin-top: 25px;
         font-size: 10px;
+        transition: opacity 0.3s ease;
     }
 
     .bar span {
@@ -130,15 +131,15 @@
         white-space: nowrap;
     }
 
-    .date {
-        font-size: 12px;
-        min-width: fit-content;
-    }
-
     .count {
         position: absolute;
         margin-top: -25px;
         text-align: center;
         width: 100%;
+    }
+
+    .date {
+        font-size: 12px;
+        min-width: fit-content;
     }
 </style>
