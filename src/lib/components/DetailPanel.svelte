@@ -51,7 +51,7 @@
 <style>
     .detail-panel {
         width: 100%;
-        background: var(--primary-color);
+
         color: black;
     }
 
@@ -69,7 +69,8 @@
 
     h1,
     h3,
-    p {
+    p,
+    a {
         margin: 0;
         font-weight: 400;
         font-size: 12px;

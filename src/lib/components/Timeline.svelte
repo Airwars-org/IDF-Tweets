@@ -66,7 +66,7 @@
                 class="bar"
                 style="height: {counts[index] *
                     2}px; background-color: {selectedDate === dateKey
-                    ? 'white'
+                    ? 'black'
                     : 'var(--primary-color)'};"
                 title="{dateKey}: {counts[index]} incidents"
                 on:click={() => filterDataByDate(dateKey)}
