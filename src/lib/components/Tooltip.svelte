@@ -162,13 +162,13 @@
                     fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M20 0H0V15.6522L10 28.2609L20 15.6522V0ZM10 15.8967C13.1216 15.8967 15.6522 13.3266 15.6522 10.1562C15.6522 6.98586 13.1216 4.41576 10 4.41576C6.87839 4.41576 4.34783 6.98586 4.34783 10.1562C4.34783 13.3266 6.87839 15.8967 10 15.8967Z"
-                    fill="white"
+                    fill="var(--primary-color)"
                 />
                 <circle
                     class="hide"
                     cx="10"
                     cy="10.1562"
-                    fill="black"
+                    fill="var(--primary-color)"
                     stroke="none"
                 />
             </svg>
@@ -186,13 +186,13 @@
                     fill-rule="evenodd"
                     clip-rule="evenodd"
                     d="M20 0H0V15.6522L10 28.2609L20 15.6522V0ZM10 15.8967C13.1216 15.8967 15.6522 13.3266 15.6522 10.1562C15.6522 6.98586 13.1216 4.41576 10 4.41576C6.87839 4.41576 4.34783 6.98586 4.34783 10.1562C4.34783 13.3266 6.87839 15.8967 10 15.8967Z"
-                    fill="white"
+                    fill="var(--primary-color)"
                 />
                 <circle
                     class="hide"
                     cx="10"
                     cy="10.1562"
-                    fill="black"
+                    fill="var(--primary-color)"
                     stroke="none"
                 />
             </svg>
@@ -233,7 +233,7 @@
 <style>
     .line {
         stroke-width: 2;
-        stroke: white;
+        stroke: var(--primary-color);
     }
 
     foreignObject,
@@ -306,8 +306,8 @@
     }
 
     .secondary {
-        fill: white;
-        stroke: black;
+        fill: var(--primary-color);
+        stroke: gainsboro;
         stroke-width: 1;
     }
 

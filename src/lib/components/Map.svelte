@@ -166,9 +166,9 @@
     }
 
     .boundary {
-        fill: rgb(14, 14, 14);
+        fill: rgb(242, 242, 242);
         stroke-width: 2px;
-        stroke: rgb(40, 40, 40); /*or 38 */
+        stroke: rgb(228, 228, 228);
     }
 
     .buildings {
@@ -179,6 +179,6 @@
     .streets {
         fill: none;
         stroke-width: 0.5px;
-        stroke: rgb(65, 65, 65);
+        stroke: rgb(166, 166, 166);
     }
 </style>

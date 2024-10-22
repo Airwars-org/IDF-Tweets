@@ -1,41 +1,20 @@
 <script>
     import Map from "@components/Map.svelte";
-    import Legend from "@components/Legend.svelte";
-    import DetailPanel from "@components/DetailPanel.svelte";
+    import Archive from "@components/Archive.svelte";
     import SmallMap from "@components/SmallMap.svelte";
     import { csv } from "d3";
     import { onMount } from "svelte";
-    import { selected } from "$lib/stores/selected";
 
-    import DateRange from "@components/DateRange.svelte";
-    import TimelineSlider from "@components/TimelineSlider.svelte";
+    import Timeline from "@components/Timeline.svelte";
 
     let data = [];
     let filteredData = [];
-    let mapContainer;
     let windowWidth = 0;
-    let scrollPercentage = 0;
-    let containerHeight = 0;
     let viewportHeight = 0;
 
     const handleResize = () => {
         windowWidth = window.innerWidth;
         viewportHeight = window.innerHeight;
-    };
-
-    const handleScroll = () => {
-        if (mapContainer) {
-            const containerBounds = mapContainer.getBoundingClientRect();
-            containerHeight = containerBounds.height;
-
-            const maxScrollHeight = containerHeight - viewportHeight;
-            const scrolledDistance = Math.max(0, -containerBounds.top);
-
-            scrollPercentage = Math.min(
-                Math.max(0, (scrolledDistance / maxScrollHeight) * 100),
-                100,
-            );
-        }
     };
 
     const updateFilteredData = (newFilteredData) => {
@@ -49,8 +28,6 @@
         data = data.filter((d) => d["Add to Map"] == "TRUE");
         handleResize();
         window.addEventListener("resize", handleResize);
-        window.addEventListener("scroll", handleScroll);
-        handleScroll();
     });
 </script>
 
@@ -58,119 +35,60 @@
     {#if data.length === 0}
         <p class="loading">Loading...</p>
     {:else}
-        <section>
-            {#if windowWidth <= 800}
-                <div class="small-heading">
-                    <DateRange {data} />
-                </div>
-                <Legend />
-            {/if}
-            <div class="sticky">
-                {#if windowWidth > 800}
-                    <div class="intro small-heading">
-                        <DateRange {data} />
-                    </div>
-                {/if}
-
-                <div class="panel">
-                    {#if !$selected}
-                        {#if windowWidth > 800}
-                            <Legend />
-                        {/if}
-                    {/if}
-                    <DetailPanel />
-                </div>
+        <section class="top">
+            <section>
                 {#if windowWidth > 800}
                     <div class="small">
                         <SmallMap
                             data={filteredData.length > 0 ? filteredData : data}
                             {windowWidth}
-                            {scrollPercentage}
-                            {containerHeight}
-                            {viewportHeight}
                         />
                     </div>
                 {/if}
-            </div>
-            <div class="mapContainer" bind:this={mapContainer}>
+            </section>
+            <div class="mapContainer">
                 <Map data={filteredData.length > 0 ? filteredData : data} />
+            </div>
+            <div class="panel">
+                <Archive />
             </div>
         </section>
         <div class="timeline">
-            <TimelineSlider {data} on:filteredData={updateFilteredData} />
+            <Timeline {data} on:filteredData={updateFilteredData} />
         </div>
     {/if}
 </section>
 
 <style>
-    .map {
-        position: relative;
-    }
-
-    .loading {
-        padding: 10px;
-        min-height: 100vh;
-        color: var(--primary-color);
-    }
-
-    .intro {
-        color: var(--primary-color);
-        width: 100%;
-        position: absolute;
-    }
-
-    .small-heading {
-        color: var(--primary-color);
-        font-size: clamp(1.6rem, 1.4vw, 2rem);
+    .top {
+        display: flex;
+        justify-content: space-between;
     }
 
     .mapContainer {
-        margin-top: -100vh;
+        width: 100%;
+        max-width: 1080px;
+        height: 100vh;
+        overflow: scroll;
         margin-bottom: 100px;
     }
 
-    .sticky {
-        position: sticky;
-        z-index: 1;
-        top: 10px;
-        height: 100vh;
-        pointer-events: none;
-        padding-bottom: 100px;
-    }
-
     .panel {
-        z-index: 1;
-        margin-left: calc(100vw - 320px - 10px);
-        overflow: scroll;
+        min-width: 100px;
     }
 
-    .small {
-        position: absolute;
-        z-index: -1;
-        bottom: 250px;
-        margin: 10px;
+    .loading {
+        margin: 0;
+        padding: 10px;
+        color: var(--primary-color);
     }
 
     .timeline {
+        padding: 10px;
         position: fixed;
         bottom: 0;
         width: 100%;
-        background-color: black;
-    }
-
-    @media (max-width: 800px) {
-        .panel {
-            margin-left: 0;
-            top: 0px;
-        }
-
-        .sticky {
-            top: 0px;
-            padding-bottom: 20px;
-        }
-
-        .small {
-            display: none;
-        }
+        background-color: rgb(241, 241, 241);
+        border-top: 1px solid black;
     }
 </style>

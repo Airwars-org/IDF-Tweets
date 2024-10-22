@@ -10,20 +10,14 @@
 
 <style>
     :global(html) {
-        --primary-color: rgb(252, 84, 13);
-        background-color: rgb(8, 8, 8);
-        background-image: radial-gradient(
-            rgb(252, 84, 13, 0.2) 1px,
-            rgb(8, 8, 8, 0.5) 1px
-        );
-        background-size: 30px 30px;
+        --primary-color: blue;
     }
 
     :global(body) {
         margin: 0;
         padding: 0;
         color: white;
-        font-family: "Atlas Grotesk", sans-serif;
+        font-family: sans-serif;
         font-size: 19px;
     }
 

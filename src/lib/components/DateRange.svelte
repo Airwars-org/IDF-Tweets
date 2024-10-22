@@ -32,7 +32,6 @@
 <style>
     p {
         margin: 0;
-        padding: 0 10px;
-        font-size: clamp(1rem, 1vw, 1rem);
+        font-size: 1rem;
     }
 </style>

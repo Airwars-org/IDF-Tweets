@@ -1,17 +1,17 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import { getMinMaxDates, parseDate } from "@lib/utils.js";
-    import { max } from "d3";
+    import Legend from "@components/Legend.svelte";
 
     export let data = [];
     const dispatch = createEventDispatcher();
 
     let minDate, maxDate;
-    let filteredData = [];
+    let filteredData = data;
     let incidentCounts = {};
     let dateRange = [];
     let counts = [];
-    $: selectedDate = minDate;
+    $: selectedDate = null;
 
     $: ({ min: minDate, max: maxDate } = getMinMaxDates(data));
 
@@ -37,36 +37,30 @@
     }
 
     function filterDataByDate(date) {
-        filteredData = data.filter((d) => {
-            const postDate = parseDate(d["Post Date"]);
-            return postDate && postDate.toISOString().split("T")[0] === date;
-        });
+        if (selectedDate === date) {
+            filteredData = data;
+            selectedDate = null;
+        } else {
+            filteredData = data.filter((d) => {
+                const postDate = parseDate(d["Post Date"]);
+                return (
+                    postDate && postDate.toISOString().split("T")[0] === date
+                );
+            });
+            selectedDate = date;
+        }
 
         dispatch("filteredData", filteredData);
-        selectedDate = date;
     }
-
-    const formatDate = (date) =>
-        date.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-        });
 </script>
 
 <div class="timeline-container">
-    <div class="results">
-        <p>
-            {filteredData.length} items found from {formatDate(
-                new Date(selectedDate),
-            )} onwards
-        </p>
-    </div>
+    <Legend {filteredData} {selectedDate} {data} {minDate}/>
 
     <div class="chart">
-        <p class="date">
+        <!-- <p class="date">
             {formatDate(new Date(minDate))}
-        </p>
+        </p> -->
         {#each dateRange as dateKey, index}
             <div
                 class="bar"
@@ -80,9 +74,9 @@
                 <div class="count">{counts[index]}</div>
             </div>
         {/each}
-        <p class="date">
+        <!-- <p class="date">
             {formatDate(new Date(maxDate))}
-        </p>
+        </p> -->
     </div>
 </div>
 
@@ -127,7 +121,8 @@
     }
 
     .date {
-        font-size: 1rem;
+        font-size: 12px;
+        min-width: fit-content;
     }
 
     .count {
@@ -135,14 +130,5 @@
         margin-top: -25px;
         text-align: center;
         width: 100%;
-    }
-
-    .results {
-        font-size: 1rem;
-    }
-
-    p {
-        padding: 0.5rem;
-        margin: 0;
     }
 </style>
