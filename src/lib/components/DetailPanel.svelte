@@ -13,7 +13,7 @@
 </script>
 
 <div class="detail-panel">
-    <div class="close" on:click={() => selected.set(null)}>×</div>
+    <!-- <div class="close" on:click={() => selected.set(null)}>×</div> -->
 
     <h1>{selectedPoint.Title || "No Title"}</h1>
 
@@ -57,14 +57,6 @@
 
     .detail-panel > div {
         padding-bottom: 10px;
-    }
-
-    .close {
-        cursor: pointer;
-        font-size: 24px;
-        position: absolute;
-        right: 10px;
-        top: 10px;
     }
 
     h1,
